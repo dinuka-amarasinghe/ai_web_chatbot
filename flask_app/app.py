@@ -14,7 +14,8 @@ def handle_message():
     message = request.json['message']
     intents_list = predict_class(message)
     response = get_response(intents_list)
-    return jsonify(response)
+
+    return jsonify({'response': response})
 
 
 if __name__ == '__main__':
