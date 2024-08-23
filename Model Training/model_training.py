@@ -19,7 +19,7 @@ intents = json.load(open('intents.json'))
 words = []
 classes = []
 documents = []
-ignore_letters = ['?', '!', '.', ',']
+ignore_symbols = ['?', '!', '.', ',']
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
@@ -28,3 +28,14 @@ for intent in intents['intents']:
         documents.append((word_list, intent['tag']))
         if intent['tag'] not in classes:
             classes.append(intent['tag'])
+
+words = [lemmatizer.lemmatize(word) for word in words if word not in ignore_symbols]
+words = sorted(set(words))
+
+classes = sorted(set(classes))
+
+pickle.dump(words, open('model/words.pkl', 'wb'))
+pickle.dump(classes, open('model/classes.pkl', 'wb'))
+
+training = []
+output_empty = [0] * len(classes)
