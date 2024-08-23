@@ -104,11 +104,20 @@
             if (message.trim() !== '') {
                 $('#chat-messages').append('<div class="message">' + message + '</div><br>');
                 $('#user-input').val('');
+
+                $.ajax({
+                    url: '/handle_message',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({message: message}),
+                    success: function (data) {
+                        $('#chat-messages').append('<div class="message received">' + data.response + '</div><br>');
+                        $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight);
+                    }
+                });
             }
         }
     });
-
-
 </script>
 </body>
 </html>
