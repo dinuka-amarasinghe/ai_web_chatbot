@@ -51,3 +51,15 @@ for document in documents:
     output_row = list(output_empty)
     output_row[classes.index(document[1])] = 1
     training.append([bag, output_row])
+
+random.shuffle(training)
+training = np.array(training)
+
+train_x = training[:, :len(words)]
+train_y = training[:, len(words):]
+
+model.add(Dense(128, input_shape=(len(train_x[0]),), activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(64, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(len(train_y[0]), activation='softmax'))
